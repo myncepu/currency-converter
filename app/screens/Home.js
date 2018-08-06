@@ -8,6 +8,7 @@ class HomeScreen extends React.Component {
     return (
       <Container>
         <StatusBar
+          translucent={false}
           barStyle="light-content"
         />
         <View />
