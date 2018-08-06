@@ -1,7 +1,8 @@
 import React from 'react'
-import {View, StatusBar} from 'react-native'
+import {Text, StatusBar} from 'react-native'
 
 import {Container} from '../components/Container'
+import {Logo} from '../components/Logo'
 
 class HomeScreen extends React.Component {
   render() {
@@ -11,7 +12,7 @@ class HomeScreen extends React.Component {
           translucent={false}
           barStyle="light-content"
         />
-        <View />
+        <Logo />
       </Container>
     )
   }
