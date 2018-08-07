@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {SafeAreaView} from 'react-navigation'
+import {TouchableWithoutFeedback, Keyboard, View} from 'react-native'
 
 import styles from './styles'
 
@@ -12,7 +13,11 @@ class Container extends React.Component {
   render() {
     return (
       <SafeAreaView style={styles.container}>
-        {this.props.children}
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <View style={{ flex: 1, justifyContent: 'center' }}>
+            {this.props.children}
+          </View>
+        </TouchableWithoutFeedback>
       </SafeAreaView>
     )
   }
