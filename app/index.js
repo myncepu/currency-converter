@@ -11,7 +11,7 @@ EStyleSheet.build({
   $white: '#fff',
   $border: '#E2E2E2',
   $inputText: '#797979',
-  $lightGray: '#F0F0F0',
+  $lightGray: '#D9D9D9',
 
   $rem: width > 340 ? 18 : 16
 })

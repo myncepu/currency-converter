@@ -19,7 +19,7 @@ export default EStyleSheet.create({
     resizeMode: Image.resizeMode.contain,
   },
   logoText: {
-    marginTop: '1rem',
+    marginVertical: '1rem',
     fontSize: '1.5rem',
     color: '$white',
     fontWeight: '500',

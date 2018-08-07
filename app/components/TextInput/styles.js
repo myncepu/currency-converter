@@ -1,6 +1,8 @@
 import {StyleSheet} from 'react-native'
 import EStyleSheet from 'react-native-extended-stylesheet'
 
+const borderRadius = '0.2rem'
+
 const styles = EStyleSheet.create({
   // local variables for this stylesheet
   $buttonBackgroundColorBase: '$white',
@@ -13,25 +15,28 @@ const styles = EStyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     width: '90%',
-    height: '2rem',
-    borderRadius: '0.2rem',
+    height: '3rem',
+    borderRadius,
   },
   button: {
     flex: 1.3,
     height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
-    borderTopLeftRadius: '0.2rem',
-    borderBottomLeftRadius: '0.2rem',
+    borderTopLeftRadius: borderRadius,
+    borderBottomLeftRadius: borderRadius,
   },
   input: {
     flex: 5,
     paddingHorizontal: '0.5rem',
-    borderLeftColor: '$primaryBlue',
+    borderLeftColor: '$border',
     borderLeftWidth: StyleSheet.hairlineWidth,
     height: '100%',
     fontSize: '1.1rem',
-    color: '$border',
+    color: '$primaryBlue',
+    backgroundColor: '$white',
+    borderTopRightRadius: borderRadius,
+    borderBottomRightRadius: borderRadius,
   },
   disabled: {
     backgroundColor: '$lightGray',
