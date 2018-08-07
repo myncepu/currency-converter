@@ -5,6 +5,7 @@ import {Container} from '../components/Container'
 import {Logo} from '../components/Logo'
 import {InputWithButton} from '../components/TextInput'
 import {ClearButton} from '../components/Buttons'
+import {LastConverted} from '../components/Text'
 
 const TEMP_BASE_CURRENCY = 'USD'
 const TEMP_QUOTE_CURRENCY = 'CNY'
@@ -54,6 +55,12 @@ class HomeScreen extends React.Component {
           value={this.state.quote.price}
           editable={false}
           onPress={() => null}
+        />
+        <LastConverted
+          baseCurrency={this.state.base.currency}
+          quoteCurrency={this.state.quote.currency}
+          conversion={7}
+          date={new Date()}
         />
         <View style={{ marginVertical: 20 }}>
           <ClearButton
