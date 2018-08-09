@@ -1,5 +1,5 @@
 import React from 'react'
-import {Dimensions, KeyboardAvoidingView, TouchableOpacity, View, StatusBar} from 'react-native'
+import { Dimensions, KeyboardAvoidingView, TouchableOpacity, View, StatusBar } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons'
 
 import {Container} from '../components/Container'
@@ -26,7 +26,7 @@ class HomeScreen extends React.Component {
       quote: {
         currency: TEMP_QUOTE_CURRENCY,
         price: TEMP_QUOTE_PRICE,
-      }
+      },
     }
   }
 
