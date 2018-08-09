@@ -60,7 +60,7 @@ class HomeScreen extends React.Component {
           barStyle="light-content"
         />
         <KeyboardAvoidingView
-          behavior="padding"
+          behavior="position"
           enabled
           style={{ flex: 1, width, justifyContent: 'center', alignItems: 'center' }}
         >
