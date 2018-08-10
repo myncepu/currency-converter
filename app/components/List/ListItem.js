@@ -15,11 +15,13 @@ class ListItem extends Component {
     selected: PropTypes.bool,
     checkmark: PropTypes.bool,
     visiable: PropTypes.bool,
+    customIcon: PropTypes.element,
   }
 
   static defaultProps = {
     checkmark: true,
     visiable: true,
+    customIcon: null,
   }
 
   constructor(props) {
@@ -35,6 +37,7 @@ class ListItem extends Component {
       onHideUnderlay,
       visiable,
       onPress,
+      customIcon,
     } = this.props
 
     return (
@@ -48,6 +51,7 @@ class ListItem extends Component {
             {text}
           </Text>
           { selected && <Icon visiable={visiable} checkmark={checkmark} /> }
+          { customIcon }
         </View>
       </TouchableHighlight>
     )
