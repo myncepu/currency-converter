@@ -68,14 +68,20 @@ class HomeScreen extends React.Component {
           <InputWithButton
             buttonText={this.state.base.currency}
             defaultValue={this.state.base.price}
-            onPress={() => null}
+            onPress={() => this.props.navigation.navigate('CurrencyList', {
+              currentCurrency: this.state.base.currency,
+              title: 'Base currency',
+            })}
             onChangeText={this.handleBaseCurrencyChange}
           />
           <InputWithButton
             buttonText={this.state.quote.currency}
             value={this.state.quote.price}
             editable={false}
-            onPress={() => null}
+            onPress={() => this.props.navigation.navigate('CurrencyList', {
+              currentCurrency: this.state.quote.currency,
+              title: 'Quote currency',
+            })}
           />
           <LastConverted
             baseCurrency={this.state.base.currency}
