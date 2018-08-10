@@ -3,6 +3,7 @@ import {Dimensions} from 'react-native'
 import {createStackNavigator} from 'react-navigation'
 
 import HomeScreen from './screens/Home'
+import CurrencyListScreen from './screens/CurrencyList'
 
 let {width} = Dimensions.get('window')
 // always call EStyleSheet.build() even if you don't use global variables!
@@ -22,6 +23,9 @@ const AppNavigator = createStackNavigator({
   Home: {
     screen: HomeScreen
   },
+  CurrencyList: {
+    screen: CurrencyListScreen
+  },
 }, {
   initialRouteName: 'Home',
   /* The header config from HomeScreen is now here */
@@ -34,6 +38,7 @@ const AppNavigator = createStackNavigator({
       fontWeight: 'bold',
     },
   },
+  mode: 'modal',
 })
 
 export default AppNavigator
