@@ -30,17 +30,22 @@ class HomeScreen extends React.Component {
     }
   }
 
-  static navigationOptions = {
-    title: 'Home',
-    headerRight: (
-      <TouchableOpacity style={{ paddingVertical: 5, paddingHorizontal: 20 }}>
-        <Icon
-          name="ios-settings"
-          size={30}
-          color="white"
-        />
-      </TouchableOpacity>
-    ),
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: 'Home',
+      headerRight: (
+        <TouchableOpacity
+          style={{ paddingVertical: 5, paddingHorizontal: 20 }}
+          onPress={() => navigation.navigate('Options')}
+        >
+          <Icon
+            name="ios-settings"
+            size={30}
+            color="white"
+          />
+        </TouchableOpacity>
+      ),
+    }
   }
 
   handleBaseCurrencyChange = (currency) => {
