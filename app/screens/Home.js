@@ -7,6 +7,7 @@ import {Logo} from '../components/Logo'
 import {InputWithButton} from '../components/TextInput'
 import {ClearButton} from '../components/Buttons'
 import {LastConverted} from '../components/Text'
+import * as currencyActions from '../actions/currencies'
 
 const TEMP_BASE_CURRENCY = 'USD'
 const TEMP_QUOTE_CURRENCY = 'CNY'
@@ -48,13 +49,15 @@ class HomeScreen extends React.Component {
     }
   }
 
-  handleBaseCurrencyChange = (currency) => {
+  changeCurrencyAmount = (amount) => {
     /* eslint-disable-next-line */
-    console.log(currency)
+    console.log(currencyActions.changeCurrencyAmount(amount))
   }
 
-  reverseCurrencies = () => {
+  swapCurrency = () => {
     this.setState({ base: this.state.quote, quote: this.state.base })
+    // eslint-disable-next-line
+    console.log(currencyActions.swapCurrency())
   }
 
   render() {
@@ -77,7 +80,7 @@ class HomeScreen extends React.Component {
               currentCurrency: this.state.base.currency,
               title: 'Base currency',
             })}
-            onChangeText={this.handleBaseCurrencyChange}
+            onChangeText={this.changeCurrencyAmount}
           />
           <InputWithButton
             buttonText={this.state.quote.currency}
@@ -97,7 +100,7 @@ class HomeScreen extends React.Component {
           <View style={{ marginVertical: 20 }}>
             <ClearButton
               text="Reverse Currencies"
-              onPress={this.reverseCurrencies}
+              onPress={this.swapCurrency}
             />
           </View>
         </KeyboardAvoidingView>
