@@ -7,6 +7,7 @@ import {
 } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons'
 import EStyleSheet from 'react-native-extended-stylesheet'
+import { connectAlert } from '../components/Alert'
 
 import {ListItem, Separator} from '../components/List'
 
@@ -24,6 +25,7 @@ const styles = EStyleSheet.create({
 class Options extends Component {
   static propTypes = {
     children: PropTypes.node,
+    alertWithType: PropTypes.func,
   }
 
   static navigationOptions =  {
@@ -35,7 +37,9 @@ class Options extends Component {
   }
 
   handleSitePress = () => {
-    Linking.openURL('tps://www.fixer.io').catch(() => alert('an error occured'))
+    Linking.openURL('tps://www.fixer.io').catch(() => {
+      this.props.alertWithType('error', 'Sorry!', 'Fixer.io can\'t be opened right now.')
+    })
   }
   render() {
     return (
@@ -71,4 +75,4 @@ class Options extends Component {
   }
 }
 
-export default Options
+export default connectAlert(Options)
