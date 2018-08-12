@@ -4,6 +4,7 @@ import EStyleSheet from 'react-native-extended-stylesheet'
 import HomeScreen from '../screens/Home'
 import CurrencyListScreen from '../screens/CurrencyList'
 import OptionsScreen from '../screens/Options'
+import ThemeScreen from '../screens/Theme'
 
 import configurEStyleSheet from './estylesheet'
 
@@ -20,6 +21,9 @@ const HomeStack = createStackNavigator({
   Options: {
     screen: OptionsScreen
   },
+  Theme: {
+    screen: ThemeScreen
+  },
 }, {
   initialRouteName: 'Home',
   /* The header config from HomeScreen is now here */
@@ -35,7 +39,7 @@ const HomeStack = createStackNavigator({
 })
 
 const AppNavigator = createStackNavigator({
-  Home: {
+  HomeStack: {
     screen: HomeStack,
     navigationOptions: {
       header: () => null,
@@ -45,7 +49,7 @@ const AppNavigator = createStackNavigator({
     screen: CurrencyListScreen
   },
 }, {
-  initialRouteName: 'Home',
+  initialRouteName: 'HomeStack',
   /* The header config from HomeScreen is now here */
   navigationOptions: {
     headerStyle: {
