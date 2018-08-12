@@ -4,7 +4,7 @@ import EStyleSheet from 'react-native-extended-stylesheet'
 import HomeScreen from '../screens/Home'
 import CurrencyListScreen from '../screens/CurrencyList'
 import OptionsScreen from '../screens/Options'
-import ThemeScreen from '../screens/Theme'
+import ThemesScreen from '../screens/Themes'
 
 import configurEStyleSheet from './estylesheet'
 
@@ -22,7 +22,7 @@ const HomeStack = createStackNavigator({
     screen: OptionsScreen
   },
   Theme: {
-    screen: ThemeScreen
+    screen: ThemesScreen
   },
 }, {
   initialRouteName: 'Home',
