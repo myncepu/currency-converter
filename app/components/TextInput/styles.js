@@ -33,7 +33,7 @@ const styles = EStyleSheet.create({
     borderLeftWidth: StyleSheet.hairlineWidth,
     height: '100%',
     fontSize: '1.1rem',
-    color: '$primaryBlue',
+    color: '$primaryColor',
     backgroundColor: '$white',
     borderTopRightRadius: borderRadius,
     borderBottomRightRadius: borderRadius,
@@ -42,7 +42,7 @@ const styles = EStyleSheet.create({
     backgroundColor: '$lightGray',
   },
   text: {
-    color: '$primaryBlue',
+    color: '$primaryColor',
     fontSize: '1.1rem',
   }
 })

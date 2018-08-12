@@ -27,6 +27,7 @@ export default EStyleSheet.create({
   logo: {
     width: '$largeImageSize',
     height: '$largeImageSize',
+    tintColor: '$primaryColor',
   },
   logoText: {
     marginVertical: '1rem',

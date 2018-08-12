@@ -8,10 +8,10 @@ import ThemeScreen from '../screens/Theme'
 
 import configurEStyleSheet from './estylesheet'
 
-configurEStyleSheet()
+configurEStyleSheet({ theme: 'green', primaryColor: 'green' })
 
 const styles = EStyleSheet.create({
-  $primaryColor: '$primaryBlue',
+  $themeColor: '$primaryColor',
 })
 
 const HomeStack = createStackNavigator({
@@ -29,7 +29,7 @@ const HomeStack = createStackNavigator({
   /* The header config from HomeScreen is now here */
   navigationOptions: {
     headerStyle: {
-      backgroundColor: styles.$primaryColor,
+      backgroundColor: styles.$themeColor,
     },
     headerTintColor: '#fff',
     headerTitleStyle: {
@@ -53,7 +53,7 @@ const AppNavigator = createStackNavigator({
   /* The header config from HomeScreen is now here */
   navigationOptions: {
     headerStyle: {
-      backgroundColor: EStyleSheet.globalVars.$primaryBlue,
+      backgroundColor: styles.$themeColor,
     },
     headerTintColor: '#fff',
     headerTitleStyle: {
