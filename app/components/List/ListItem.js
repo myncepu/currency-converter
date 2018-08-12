@@ -16,6 +16,7 @@ class ListItem extends Component {
     checkmark: PropTypes.bool,
     visiable: PropTypes.bool,
     customIcon: PropTypes.element,
+    iconColor: PropTypes.string,
   }
 
   static defaultProps = {
@@ -38,6 +39,7 @@ class ListItem extends Component {
       visiable,
       onPress,
       customIcon,
+      iconColor,
     } = this.props
 
     return (
@@ -50,7 +52,13 @@ class ListItem extends Component {
           <Text style={styles.listText}>
             {text}
           </Text>
-          { selected && <Icon visiable={visiable} checkmark={checkmark} /> }
+          { selected &&
+              <Icon
+                visiable={visiable}
+                checkmark={checkmark}
+                iconColor={iconColor}
+              />
+          }
           { customIcon }
         </View>
       </TouchableHighlight>
