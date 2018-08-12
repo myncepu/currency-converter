@@ -4,10 +4,10 @@ import PropTypes from 'prop-types'
 
 import styles from './styles'
 
-const Icon = ({ visiable, checkmark, iconColor = styles.$blue }) => {
+const Icon = ({ visiable, checkmark, iconBackground = styles.$blue }) => {
   if (visiable) {
     return (
-      <View style={[styles.iconContainer, {backgroundColor: iconColor}]}>
+      <View style={[styles.iconContainer, {backgroundColor: iconBackground}]}>
         { checkmark &&
           <Image
             source={require('./images/check.png')}
@@ -25,7 +25,7 @@ const Icon = ({ visiable, checkmark, iconColor = styles.$blue }) => {
 Icon.propTypes = {
   visiable: PropTypes.bool,
   checkmark: PropTypes.bool,
-  iconColor: PropTypes.string,
+  iconBackground: PropTypes.string,
 }
 
 export default Icon

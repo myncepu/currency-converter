@@ -16,7 +16,7 @@ class ListItem extends Component {
     checkmark: PropTypes.bool,
     visiable: PropTypes.bool,
     customIcon: PropTypes.element,
-    iconColor: PropTypes.string,
+    iconBackground: PropTypes.string,
   }
 
   static defaultProps = {
@@ -39,7 +39,7 @@ class ListItem extends Component {
       visiable,
       onPress,
       customIcon,
-      iconColor,
+      iconBackground,
     } = this.props
 
     return (
@@ -56,7 +56,7 @@ class ListItem extends Component {
               <Icon
                 visiable={visiable}
                 checkmark={checkmark}
-                iconColor={iconColor}
+                iconBackground={iconBackground}
               />
           }
           { customIcon }

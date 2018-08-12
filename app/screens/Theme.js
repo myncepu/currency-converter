@@ -51,7 +51,7 @@ class Options extends Component {
           onPress={() => this.handlePress(styles.$blue)}
           selected={true}
           checkmark={primaryColor === styles.$blue}
-          iconColor={styles.$blue}
+          iconBackground={styles.$blue}
         />
         <Separator />
         <ListItem
@@ -59,7 +59,7 @@ class Options extends Component {
           onPress={() => this.handlePress(styles.$orange)}
           selected={true}
           checkmark={primaryColor === styles.$orange}
-          iconColor={styles.$orange}
+          iconBackground={styles.$orange}
         />
         <Separator />
         <ListItem
@@ -67,7 +67,7 @@ class Options extends Component {
           onPress={() => this.handlePress(styles.$green)}
           selected={true}
           checkmark={primaryColor === styles.$green}
-          iconColor={styles.$green}
+          iconBackground={styles.$green}
         />
         <Separator />
         <ListItem
@@ -75,7 +75,7 @@ class Options extends Component {
           onPress={() => this.handlePress(styles.$purple)}
           selected={true}
           checkmark={primaryColor === styles.$purple}
-          iconColor={styles.$purple}
+          iconBackground={styles.$purple}
         />
         <Separator />
       </ScrollView>
