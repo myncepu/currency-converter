@@ -3,6 +3,7 @@ import {StyleSheet} from 'react-native'
 
 const styles = EStyleSheet.create({
   $underlayColor: '$lightGray',
+  $blue: '$primaryBlue',
 
   listContainer: {
     flex: 1,
@@ -26,7 +27,6 @@ const styles = EStyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: '0.75rem',
-    backgroundColor: '$primaryBlue',
   },
   icon: {
     width: '1rem',
