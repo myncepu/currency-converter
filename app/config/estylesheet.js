@@ -6,6 +6,10 @@ let {width} = Dimensions.get('window')
 export default () => {
   EStyleSheet.build({
     $primaryBlue: '#4F6D7A',
+    $primaryOrange: '#D57A66',
+    $primaryGreen: '#00BD9D',
+    $primaryPurple: '#9E768F',
+
     $white: '#fff',
     $border: '#E2E2E2',
     $inputText: '#797979',
