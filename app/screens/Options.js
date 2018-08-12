@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import {
   View,
   ScrollView,
+  Linking,
 } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons'
 import EStyleSheet from 'react-native-extended-stylesheet'
@@ -33,7 +34,9 @@ class Options extends Component {
     super(props)
   }
 
-  handlePress = () => null
+  handleSitePress = () => {
+    Linking.openURL('tps://www.fixer.io').catch(() => alert('an error occured'))
+  }
   render() {
     return (
       <ScrollView>
@@ -52,7 +55,7 @@ class Options extends Component {
         <Separator />
         <ListItem
           text="Fixer.io"
-          onPress={this.handlePress}
+          onPress={this.handleSitePress}
           customIcon={
             <View style={styles.iconContainer}>
               <Icon
