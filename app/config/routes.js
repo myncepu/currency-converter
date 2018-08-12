@@ -8,7 +8,7 @@ import ThemesScreen from '../screens/Themes'
 
 import configurEStyleSheet from './estylesheet'
 
-configurEStyleSheet({ theme: 'green', primaryColor: 'green' })
+configurEStyleSheet({ theme: 'purple', primaryColor: '#9E768F' })
 
 const styles = EStyleSheet.create({
   $themeColor: '$primaryColor',
