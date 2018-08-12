@@ -39,7 +39,7 @@ class Options extends Component {
       <ScrollView>
         <ListItem
           text="Themes"
-          onPress={this.handlePress}
+          onPress={() => this.props.navigation.navigate('Theme')}
           customIcon={
             <View style={styles.iconContainer}>
               <Icon
