@@ -24,10 +24,17 @@ class InputWithButton extends Component {
   render() {
     const {buttonText, editable, onPress} = this.props
     const underlayColor = color(styles.$buttonBackgroundColorBase).darken(styles.$buttonBackgroundColorModifier)
-    const inputStyle = [ styles.input ]
-    if (!editable) {
-      inputStyle.push(styles.disabled)
-    }
+
+    const inputStyle = [
+      styles.input,
+      editable ? null : styles.disabled,
+      this.props.textColor ? { color: this.props.textColor } : null
+    ]
+
+    const textStyle = [
+      styles.text,
+      this.props.textColor ? { color: this.props.textColor } : null
+    ]
 
     return (
       <View style={styles.container}>
@@ -36,7 +43,7 @@ class InputWithButton extends Component {
           style={styles.button}
           onPress={onPress}
         >
-          <Text style={styles.text}>
+          <Text style={textStyle}>
             {buttonText}
           </Text>
         </TouchableHighlight>
