@@ -8,11 +8,16 @@ import styles from './styles'
 class Container extends React.Component {
   static propTypes = {
     children: PropTypes.any,
+    backgroundColor: PropTypes.string,
   }
 
   render() {
+    const containerStyle = [styles.container]
+    if (this.props.backgroundColor) {
+      containerStyle.push({ backgroundColor: this.props.backgroundColor })
+    }
     return (
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView style={containerStyle}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View style={{ flex: 1, justifyContent: 'center' }}>
             {this.props.children}
