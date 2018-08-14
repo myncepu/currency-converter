@@ -9,14 +9,14 @@ export default EStyleSheet.create({
   $smallContainerSize: imageWidth / 2,
   $smallImageSize: imageWidth / 4,
 
+  $largeFontSize: '1.5rem',
+  $smallFontSize: '1rem',
+
+  $largePadding: '1rem',
+  $smallPadding: '0.3rem',
+
   container: {
     alignItems: 'center',
-  },
-  logoBackground: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '$largeContainerSize',
-    height: '$largeContainerSize',
   },
   backgroundImage: {          // <- new
     alignItems: 'center',
@@ -30,7 +30,7 @@ export default EStyleSheet.create({
     tintColor: '$primaryColor',
   },
   logoText: {
-    marginVertical: '1rem',
+    paddingVertical: '1rem',
     fontSize: '1.5rem',
     color: '$white',
     fontWeight: '500',
