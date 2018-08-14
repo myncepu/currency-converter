@@ -3,7 +3,6 @@ import {
   Platform,
   Keyboard,
   ImageBackground,
-  Text,
   View,
   Animated,
 } from 'react-native'
@@ -18,6 +17,8 @@ class Logo extends Component {
 
     this.containerImageWidth = new Animated.Value(styles.$largeContainerSize)
     this.imageWidth = new Animated.Value(styles.$largeImageSize)
+    this.logoFontSize = new Animated.Value(styles.$largeFontSize)
+    this.padding = new Animated.Value(styles.$largePadding)
   }
 
   componentDidMount() {
@@ -46,6 +47,14 @@ class Logo extends Component {
         toValue: styles.$smallImageSize,
         duration: ANIMATION_DURATION,
       }),
+      Animated.timing(this.logoFontSize, {
+        toValue: styles.$smallFontSize,
+        duration: ANIMATION_DURATION,
+      }),
+      Animated.timing(this.padding, {
+        toValue: styles.$smallPadding,
+        duration: ANIMATION_DURATION,
+      }),
     ]).start()
   }
 
@@ -59,18 +68,31 @@ class Logo extends Component {
         toValue: styles.$largeImageSize,
         duration: ANIMATION_DURATION,
       }),
+      Animated.timing(this.logoFontSize, {
+        toValue: styles.$largeFontSize,
+        duration: ANIMATION_DURATION,
+      }),
+      Animated.timing(this.padding, {
+        toValue: styles.$largePadding,
+        duration: ANIMATION_DURATION,
+      }),
     ]).start()
   }
 
   render() {
     const containerImageStyle = [
-      styles.containerImage,
       { width: this.containerImageWidth, height: this.containerImageWidth },
     ]
 
-    const imageStyle = [styles.logo,
+    const imageStyle = [
+      styles.logo,
       { width: this.imageWidth },
       this.props.tintColor ? { tintColor: this.props.tintColor } : null,
+    ]
+
+    const logoTextStyle = [
+      styles.logoText,
+      { fontSize: this.logoFontSize, paddingVertical: this.padding }
     ]
 
     return (
@@ -88,9 +110,9 @@ class Logo extends Component {
             />
           </ImageBackground>
         </Animated.View>
-        <Text style={styles.logoText}>
+        <Animated.Text style={logoTextStyle}>
           Currency Converter
-        </Text>
+        </Animated.Text>
       </View>
     )
   }
