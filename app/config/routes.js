@@ -5,7 +5,6 @@ import HomeScreen from '../screens/Home'
 import CurrencyListScreen from '../screens/CurrencyList'
 import OptionsScreen from '../screens/Options'
 import ThemesScreen from '../screens/Themes'
-
 import configurEStyleSheet from './estylesheet'
 
 configurEStyleSheet({ theme: 'purple', primaryColor: '#9E768F' })
@@ -27,15 +26,15 @@ const HomeStack = createStackNavigator({
 }, {
   initialRouteName: 'Home',
   /* The header config from HomeScreen is now here */
-  navigationOptions: {
+  navigationOptions: () => ({
     headerStyle: {
-      backgroundColor: styles.$themeColor,
+      backgroundColor: 'red',
     },
     headerTintColor: '#fff',
     headerTitleStyle: {
       fontWeight: 'bold',
     },
-  }
+  })
 })
 
 const AppNavigator = createStackNavigator({
@@ -53,6 +52,7 @@ const AppNavigator = createStackNavigator({
   /* The header config from HomeScreen is now here */
   navigationOptions: {
     headerStyle: {
+      // backgroundColor: styles.$themeColor,
       backgroundColor: styles.$themeColor,
     },
     headerTintColor: '#fff',
@@ -61,7 +61,6 @@ const AppNavigator = createStackNavigator({
     },
   },
   mode: 'modal',
-  // headerMode: 'none',
 })
 
 export default AppNavigator
