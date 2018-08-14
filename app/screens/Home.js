@@ -1,6 +1,9 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Dimensions, KeyboardAvoidingView, TouchableOpacity, View, StatusBar } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons'
+import { connect } from 'react-redux'
+import EStyleSheet from 'react-native-extended-stylesheet'
 
 import {Container} from '../components/Container'
 import {Logo} from '../components/Logo'
@@ -8,32 +11,35 @@ import {InputWithButton} from '../components/TextInput'
 import {ClearButton} from '../components/Buttons'
 import {LastConverted} from '../components/Text'
 import * as currencyActions from '../actions/currencies'
-
-const TEMP_BASE_CURRENCY = 'USD'
-const TEMP_QUOTE_CURRENCY = 'CNY'
-const TEMP_BASE_PRICE = '100'
-const TEMP_QUOTE_PRICE = '700'
+import {initialState} from '../reducers/themes'
 
 const {width} = Dimensions.get('window')
 
+const styles = EStyleSheet.create({
+  lastConverted: {
+    paddingVertical: '0.4rem',
+  }
+})
+
 class HomeScreen extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      base: {
-        currency: TEMP_BASE_CURRENCY,
-        price: TEMP_BASE_PRICE,
-      },
-      quote: {
-        currency: TEMP_QUOTE_CURRENCY,
-        price: TEMP_QUOTE_PRICE,
-      },
-    }
+  static propTypes = {
+    baseCurrency: PropTypes.string,
+    quoteCurrency: PropTypes.string,
+    amount: PropTypes.number,
+    conversions: PropTypes.object,
+    swapCurrency: PropTypes.func,
+    changeCurrencyAmount: PropTypes.func,
+    primaryColor: PropTypes.string,
   }
 
   static navigationOptions = ({ navigation }) => {
+    const {state} = navigation
     return {
-      title: 'Home',
+      title: '',
+      headerStyle: {
+        backgroundColor: state.params && state.params.primaryColor ? state.params.primaryColor : initialState.color,
+        borderBottomWidth: 0,
+      },
       headerRight: (
         <TouchableOpacity
           style={{ paddingVertical: 5, paddingHorizontal: 20 }}
@@ -49,58 +55,72 @@ class HomeScreen extends React.Component {
     }
   }
 
-  changeCurrencyAmount = (amount) => {
-    /* eslint-disable-next-line */
-    console.log(currencyActions.changeCurrencyAmount(amount))
+  componentDidMount() {
+    this.props.navigation.setParams({ primaryColor: this.props.primaryColor })
   }
 
-  swapCurrency = () => {
-    this.setState({ base: this.state.quote, quote: this.state.base })
-    // eslint-disable-next-line
-    console.log(currencyActions.swapCurrency())
+  componentDidUpdate(nextProps) {
+    if (nextProps.primaryColor !== this.props.primaryColor) {
+      this.props.navigation.setParams({ primaryColor: this.props.primaryColor })
+    }
   }
 
   render() {
+    const {
+      baseCurrency,
+      quoteCurrency,
+      amount,
+      conversions,
+      changeCurrencyAmount,
+      swapCurrency,
+      primaryColor,
+    } = this.props
+
+    const conversion = conversions[baseCurrency].rates[quoteCurrency]
     return (
-      <Container>
+      <Container backgroundColor={primaryColor}>
         <StatusBar
           translucent={false}
           barStyle="light-content"
         />
         <KeyboardAvoidingView
-          behavior="position"
+          behavior="padding"
           enabled
           style={{ flex: 1, width, justifyContent: 'center', alignItems: 'center' }}
         >
-          <Logo />
+          <Logo tintColor={primaryColor} />
           <InputWithButton
-            buttonText={this.state.base.currency}
-            defaultValue={this.state.base.price}
+            buttonText={baseCurrency}
+            defaultValue={String(amount)}
             onPress={() => this.props.navigation.navigate('CurrencyList', {
-              currentCurrency: this.state.base.currency,
+              currentCurrency: baseCurrency,
               title: 'Base currency',
             })}
-            onChangeText={this.changeCurrencyAmount}
+            onChangeText={changeCurrencyAmount}
+            textColor={primaryColor}
           />
           <InputWithButton
-            buttonText={this.state.quote.currency}
-            value={this.state.quote.price}
+            buttonText={quoteCurrency}
+            value={
+              conversions[baseCurrency].isFetching ? '...' : String(amount*conversion)
+            }
             editable={false}
             onPress={() => this.props.navigation.navigate('CurrencyList', {
-              currentCurrency: this.state.quote.currency,
+              currentCurrency: quoteCurrency,
               title: 'Quote currency',
             })}
+            textColor={primaryColor}
           />
           <LastConverted
-            baseCurrency={this.state.base.currency}
-            quoteCurrency={this.state.quote.currency}
-            conversion={7}
-            date={new Date()}
+            baseCurrency={baseCurrency}
+            quoteCurrency={quoteCurrency}
+            conversion={conversion}
+            date={conversions[baseCurrency].date}
           />
-          <View style={{ marginVertical: 20 }}>
+          <View style={styles.lastConverted}>
             <ClearButton
               text="Reverse Currencies"
-              onPress={this.swapCurrency}
+              onPress={swapCurrency}
             />
           </View>
         </KeyboardAvoidingView>
@@ -109,4 +129,24 @@ class HomeScreen extends React.Component {
   }
 }
 
-export default HomeScreen
+const mapStateToProps = state => ({
+  baseCurrency: state.currencies.baseCurrency,
+  quoteCurrency: state.currencies.quoteCurrency,
+  amount: state.currencies.amount,
+  conversions: state.currencies.conversions,
+  primaryColor: state.themes.color,
+})
+
+const mapDispatchToProps = dispatch => ({
+  changeCurrencyAmount: amount => {
+    dispatch(currencyActions.changeCurrencyAmount(amount))
+  },
+  swapCurrency: () => {
+    dispatch(currencyActions.swapCurrency())
+  },
+})
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(HomeScreen)
