@@ -2,8 +2,11 @@ import React, { Component} from 'react'
 import PropTypes from 'prop-types'
 import { ScrollView } from 'react-native'
 import EStyleSheet from 'react-native-extended-stylesheet'
+import { connect } from 'react-redux'
 
 import {ListItem, Separator} from '../components/List'
+import * as themeActions from '../actions/themes'
+import {initialState} from '../reducers/themes'
 
 const styles = EStyleSheet.create({
   $iconSize: '1.5rem',
@@ -23,10 +26,19 @@ const styles = EStyleSheet.create({
 class Options extends Component {
   static propTypes = {
     children: PropTypes.node,
+    primaryColor: PropTypes.string,
+    changeTheme: PropTypes.func,
   }
 
-  static navigationOptions =  {
-    title: 'Theme',
+  static navigationOptions = ({ navigation }) => {
+    // console.log('navigation', navigation)
+    const {state} = navigation
+    return {
+      title: 'Theme',
+      headerStyle: {
+        backgroundColor: state.params && state.params.primaryColor ? state.params.primaryColor : initialState.color
+      },
+    }
   }
 
   constructor(props) {
@@ -37,13 +49,22 @@ class Options extends Component {
   }
 
   handlePress = (color) => {
-    this.setState({
-      primaryColor: color
-    })
+    this.props.changeTheme(color)
     this.props.navigation.goBack()
   }
+
+  componentDidMount() {
+    this.props.navigation.setParams({ primaryColor: this.props.primaryColor })
+  }
+
+  componentDidUpdate(nextProps) {
+    if (nextProps.primaryColor !== this.props.primaryColor) {
+      this.props.navigation.setParams({ primaryColor: this.props.primaryColor })
+    }
+  }
+
   render() {
-    const {primaryColor} = this.state
+    const {primaryColor} = this.props
     return (
       <ScrollView>
         <ListItem
@@ -83,4 +104,12 @@ class Options extends Component {
   }
 }
 
-export default Options
+const mapStateToProps = state => ({
+  primaryColor: state.themes.color,
+})
+
+const mapDispatchToProps = dispatch => ({
+  changeTheme: color => dispatch(themeActions.changeTheme(color))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Options)

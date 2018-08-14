@@ -7,9 +7,11 @@ import {
 } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons'
 import EStyleSheet from 'react-native-extended-stylesheet'
+import { connect } from 'react-redux'
 import { connectAlert } from '../components/Alert'
 
 import {ListItem, Separator} from '../components/List'
+import {initialState} from '../reducers/themes'
 
 const styles = EStyleSheet.create({
   $iconSize: '1.5rem',
@@ -28,8 +30,15 @@ class Options extends Component {
     alertWithType: PropTypes.func,
   }
 
-  static navigationOptions =  {
-    title: 'Setting',
+  static navigationOptions = ({ navigation }) => {
+    // console.log('navigation', navigation)
+    const {state} = navigation
+    return {
+      title: 'Setting',
+      headerStyle: {
+        backgroundColor: state.params && state.params.primaryColor ? state.params.primaryColor : initialState.color
+      },
+    }
   }
 
   constructor(props) {
@@ -41,6 +50,17 @@ class Options extends Component {
       this.props.alertWithType('error', 'Sorry!', 'Fixer.io can\'t be opened right now.')
     })
   }
+
+  componentDidMount() {
+    this.props.navigation.setParams({ primaryColor: this.props.primaryColor })
+  }
+
+  componentDidUpdate(nextProps) {
+    if (nextProps.primaryColor !== this.props.primaryColor) {
+      this.props.navigation.setParams({ primaryColor: this.props.primaryColor })
+    }
+  }
+
   render() {
     return (
       <ScrollView>
@@ -75,4 +95,10 @@ class Options extends Component {
   }
 }
 
-export default connectAlert(Options)
+const mapStateToProps = state => ({
+  primaryColor: state.themes.color,
+})
+
+export default connect(
+  mapStateToProps,
+)(connectAlert(Options))
