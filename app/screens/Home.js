@@ -1,6 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Dimensions, KeyboardAvoidingView, TouchableOpacity, View, StatusBar } from 'react-native'
+import {
+  Dimensions,
+  KeyboardAvoidingView,
+  TouchableOpacity,
+  View,
+  StatusBar
+} from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { connect } from 'react-redux'
 import EStyleSheet from 'react-native-extended-stylesheet'
@@ -16,8 +22,9 @@ import {initialState} from '../reducers/themes'
 const {width} = Dimensions.get('window')
 
 const styles = EStyleSheet.create({
-  lastConverted: {
+  clearButton: {
     paddingVertical: '0.4rem',
+    marginBottom: '4rem',
   }
 })
 
@@ -26,10 +33,13 @@ class HomeScreen extends React.Component {
     baseCurrency: PropTypes.string,
     quoteCurrency: PropTypes.string,
     amount: PropTypes.number,
-    conversions: PropTypes.object,
+    conversionRate: PropTypes.number,
+    primaryColor: PropTypes.string,
+    isFetching: PropTypes.bool,
+    lastConvertedDate: PropTypes.string,
+
     swapCurrency: PropTypes.func,
     changeCurrencyAmount: PropTypes.func,
-    primaryColor: PropTypes.string,
   }
 
   static navigationOptions = ({ navigation }) => {
@@ -70,13 +80,15 @@ class HomeScreen extends React.Component {
       baseCurrency,
       quoteCurrency,
       amount,
-      conversions,
+      primaryColor,
+      conversionRate,
+      isFetching,
+      lastConvertedDate,
+
       changeCurrencyAmount,
       swapCurrency,
-      primaryColor,
     } = this.props
 
-    const conversion = conversions[baseCurrency].rates[quoteCurrency]
     return (
       <Container backgroundColor={primaryColor}>
         <StatusBar
@@ -93,8 +105,8 @@ class HomeScreen extends React.Component {
             buttonText={baseCurrency}
             defaultValue={String(amount)}
             onPress={() => this.props.navigation.navigate('CurrencyList', {
-              currentCurrency: baseCurrency,
               title: 'Base currency',
+              type: 'base',
             })}
             onChangeText={changeCurrencyAmount}
             textColor={primaryColor}
@@ -102,22 +114,24 @@ class HomeScreen extends React.Component {
           <InputWithButton
             buttonText={quoteCurrency}
             value={
-              conversions[baseCurrency].isFetching ? '...' : String(amount*conversion)
+              isFetching
+                ? '...'
+                : (amount*conversionRate).toFixed(2).toString()
             }
             editable={false}
             onPress={() => this.props.navigation.navigate('CurrencyList', {
-              currentCurrency: quoteCurrency,
               title: 'Quote currency',
+              type: 'quote',
             })}
             textColor={primaryColor}
           />
           <LastConverted
             baseCurrency={baseCurrency}
             quoteCurrency={quoteCurrency}
-            conversion={conversion}
-            date={conversions[baseCurrency].date}
+            conversion={conversionRate}
+            date={lastConvertedDate}
           />
-          <View style={styles.lastConverted}>
+          <View style={styles.clearButton}>
             <ClearButton
               text="Reverse Currencies"
               onPress={swapCurrency}
@@ -129,13 +143,24 @@ class HomeScreen extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-  baseCurrency: state.currencies.baseCurrency,
-  quoteCurrency: state.currencies.quoteCurrency,
-  amount: state.currencies.amount,
-  conversions: state.currencies.conversions,
-  primaryColor: state.themes.color,
-})
+const mapStateToProps = state => {
+  const { baseCurrency, quoteCurrency, amount, conversions } = state.currencies
+  const conversionSelector = conversions[baseCurrency] || {}
+  const rates = conversionSelector.rates || {}
+  const conversionRate = rates[quoteCurrency] || 0
+  const isFetching = conversionSelector.isFetching
+  const lastConvertedDate = conversionRate.date
+
+  return {
+    baseCurrency,
+    quoteCurrency,
+    amount,
+    conversionRate,
+    isFetching,
+    lastConvertedDate,
+    primaryColor: state.themes.color,
+  }
+}
 
 const mapDispatchToProps = dispatch => ({
   changeCurrencyAmount: amount => {

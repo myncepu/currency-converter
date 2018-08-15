@@ -8,7 +8,6 @@ import {ListItem, Separator} from '../components/List'
 import * as currencyActions from '../actions/currencies'
 import {initialState} from '../reducers/themes'
 
-let TEMP_CURRENT_CURRENCY = 'CNY'
 class CurrencyList extends Component {
   static propTypes = {
     children: PropTypes.node,
@@ -21,7 +20,9 @@ class CurrencyList extends Component {
     return {
       title: title,
       headerStyle: {
-        backgroundColor: state.params && state.params.primaryColor ? state.params.primaryColor : initialState.color
+        backgroundColor: state.params && state.params.primaryColor
+          ? state.params.primaryColor
+          : initialState.color
       },
       headerLeft: null,
       headerRight: (
@@ -34,26 +35,11 @@ class CurrencyList extends Component {
     }
   }
 
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      currentCurrency: this.props.navigation.getParam('currentCurrency', TEMP_CURRENT_CURRENCY),
-    }
-  }
-
   handlePress = (currency) => {
-    this.setState({
-      currentCurrency: currency,
-    })
-
-    const title = this.props.navigation.getParam('title', '')
-    console.log('title', title)
-    console.log('currency', currency)
-
-    if (title === 'Base currency') {
+    const currencyType = this.props.navigation.getParam('type', '')
+    if (currencyType === 'base') {
       this.props.changeBaseCurrency(currency)
-    } else if (title === 'Quote currency') {
+    } else if (currencyType === 'quote') {
       this.props.changeQuoteCurrency(currency)
     }
 
@@ -74,6 +60,13 @@ class CurrencyList extends Component {
   }
 
   render() {
+    const currencyType = this.props.navigation.getParam('type', '')
+    let currentCurrency
+    if (currencyType === 'base') {
+      currentCurrency = this.props.baseCurrency
+    } else if (currencyType === 'quote') {
+      currentCurrency = this.props.quoteCurrency
+    }
     return (
       <View>
         <FlatList
@@ -84,7 +77,7 @@ class CurrencyList extends Component {
             <ListItem
               text={item}
               separators={separators}
-              selected={item === this.state.currentCurrency}
+              selected={item === currentCurrency}
               onPress={this.handlePress}
               onShowUnderlay={separators.highlight}
               onHideUnderlay={separators.unhighlight}
@@ -98,6 +91,9 @@ class CurrencyList extends Component {
 }
 
 const mapStateToProps = state => ({
+  baseCurrency: state.currencies.baseCurrency,
+  quoteCurrency: state.currencies.quoteCurrency,
+
   primaryColor: state.themes.color,
 })
 

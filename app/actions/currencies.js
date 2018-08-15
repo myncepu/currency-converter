@@ -14,10 +14,10 @@ export const swapCurrency = () => ({
 
 export const changeBaseCurrency = currency => ({
   type: CHANGE_BASE_CURRENCY,
-  baseCurrency: currency,
+  currency,
 })
 
 export const changeQuoteCurrency = currency => ({
   type: CHANGE_QUOTE_CURRENCY,
-  quoteCurrency: currency,
+  currency,
 })
