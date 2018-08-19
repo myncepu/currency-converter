@@ -1,41 +1,16 @@
 import * as currencyActions from '../actions/currencies'
+import {
+  GET_INITIAL_CONVERSION,
+  CONVERSION_RESULT,
+  CONVERSION_ERROR,
+} from '../actions/currencies'
 
 const initialState = {
-  'baseCurrency': 'USD',
-  'quoteCurrency': 'CNY',
+  'baseCurrency': 'CNY',
+  'quoteCurrency': 'USD',
   'amount': 100,
-  'conversions': {
-    'USD': {
-      'isFetching': false,
-      'base': 'USD',
-      'date': '2017-05-31',
-      'rates': {
-        'CNY': 6.813,
-        'GBP': 0.77858,
-        'USD': 1,
-      }
-    },
-    'CNY': {
-      'isFetching': false,
-      'base': 'CNY',
-      'date': '2017-05-31',
-      'rates': {
-        'USD': 0.146778218,
-        'GBP': 1.28438953,
-        'CNY': 1,
-      }
-    },
-    'GBP': {
-      'isFetching': false,
-      'base': 'CNY',
-      'date': '2017-05-31',
-      'rates': {
-        'USD': 0.146778218,
-        'GBP': 1,
-        'CNY': 1,
-      }
-    },
-  }
+  'conversions': {},
+  'error': null,
 }
 
 const setConversions = (state, action) => {
@@ -79,6 +54,28 @@ const currencyReducer = (state = initialState, action) => {
         ...state,
         quoteCurrency: action.currency,
         conversions: setConversions(state, action),
+      }
+    case GET_INITIAL_CONVERSION:
+      return {
+        ...state,
+        conversions: setConversions(state, { currency: state.baseCurrency })
+      }
+    case CONVERSION_RESULT:
+      return {
+        ...state,
+        baseCurrency: action.result.base,
+        conversions: {
+          ...state.conversions,
+          [action.result.base]: {
+            isFetching: false,
+            ...action.result,
+          }
+        }
+      }
+    case CONVERSION_ERROR:
+      return {
+        ...state,
+        error: action.error,
       }
     default:
       return state
