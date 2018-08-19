@@ -64,6 +64,7 @@ const currencyReducer = (state = initialState, action) => {
       return {
         ...state,
         baseCurrency: action.result.base,
+        error: null,
         conversions: {
           ...state.conversions,
           [action.result.base]: {
