@@ -10,6 +10,7 @@ import {
 import Icon from 'react-native-vector-icons/Ionicons'
 import { connect } from 'react-redux'
 import EStyleSheet from 'react-native-extended-stylesheet'
+import DropdownAlert from 'react-native-dropdownalert'
 
 import {Container} from '../components/Container'
 import {Logo} from '../components/Logo'
@@ -17,7 +18,9 @@ import {InputWithButton} from '../components/TextInput'
 import {ClearButton} from '../components/Buttons'
 import {LastConverted} from '../components/Text'
 import * as currencyActions from '../actions/currencies'
+import {getInitialConversion} from '../actions/currencies'
 import {initialState} from '../reducers/themes'
+import { DropDownHolder }from '../utils/DropDownHolder'
 
 const {width} = Dimensions.get('window')
 
@@ -37,9 +40,12 @@ class HomeScreen extends React.Component {
     primaryColor: PropTypes.string,
     isFetching: PropTypes.bool,
     lastConvertedDate: PropTypes.string,
+    currencyError: PropTypes.string,
 
     swapCurrency: PropTypes.func,
     changeCurrencyAmount: PropTypes.func,
+
+    getInitialConversion: PropTypes.func,
   }
 
   static navigationOptions = ({ navigation }) => {
@@ -67,11 +73,19 @@ class HomeScreen extends React.Component {
 
   componentDidMount() {
     this.props.navigation.setParams({ primaryColor: this.props.primaryColor })
+    this.props.getInitialConversion()
+
+    if (this.props.currencyError) {
+      DropDownHolder.getDropDown().alertWithType('error', 'Error', this.props.currencyError)
+    }
   }
 
   componentDidUpdate(nextProps) {
     if (nextProps.primaryColor !== this.props.primaryColor) {
       this.props.navigation.setParams({ primaryColor: this.props.primaryColor })
+    }
+    if (this.props.currencyError) {
+      DropDownHolder.getDropDown().alertWithType('error', 'Error', this.props.currencyError)
     }
   }
 
@@ -138,6 +152,9 @@ class HomeScreen extends React.Component {
             />
           </View>
         </KeyboardAvoidingView>
+        <DropdownAlert
+          ref={ref => this.dropdown = ref}
+        />
       </Container>
     )
   }
@@ -150,6 +167,7 @@ const mapStateToProps = state => {
   const conversionRate = rates[quoteCurrency] || 0
   const isFetching = conversionSelector.isFetching
   const lastConvertedDate = conversionRate.date
+  const currencyError = state.currencies.error
 
   return {
     baseCurrency,
@@ -158,6 +176,7 @@ const mapStateToProps = state => {
     conversionRate,
     isFetching,
     lastConvertedDate,
+    currencyError,
     primaryColor: state.themes.color,
   }
 }
@@ -168,6 +187,9 @@ const mapDispatchToProps = dispatch => ({
   },
   swapCurrency: () => {
     dispatch(currencyActions.swapCurrency())
+  },
+  getInitialConversion: () => {
+    dispatch(getInitialConversion())
   },
 })
 
