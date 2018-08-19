@@ -74,10 +74,6 @@ class HomeScreen extends React.Component {
   componentDidMount() {
     this.props.navigation.setParams({ primaryColor: this.props.primaryColor })
     this.props.getInitialConversion()
-
-    if (this.props.currencyError) {
-      DropDownHolder.getDropDown().alertWithType('error', 'Error', this.props.currencyError)
-    }
   }
 
   componentDidUpdate(nextProps) {
@@ -166,7 +162,7 @@ const mapStateToProps = state => {
   const rates = conversionSelector.rates || {}
   const conversionRate = rates[quoteCurrency] || 0
   const isFetching = conversionSelector.isFetching
-  const lastConvertedDate = conversionRate.date
+  const lastConvertedDate = conversionSelector.date
   const currencyError = state.currencies.error
 
   return {
